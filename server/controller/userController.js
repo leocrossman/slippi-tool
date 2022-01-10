@@ -1,5 +1,4 @@
 const db = require('../db-models/db-models');
-const bcrypt = require('bcrypt');
 const userController = {};
 
 userController.login = (req, res, next) => {
@@ -12,16 +11,11 @@ userController.login = (req, res, next) => {
     if (data.rows.length > 0) {
       bcrypt
         .compare(password, data.rows[0].password)
-        .then(result => {
+        .then((result) => {
           if (result) {
             res.locals.message = 'successfully logged in';
-            const {
-              user_id,
-              fullname,
-              username,
-              email,
-              date_joined,
-            } = data.rows[0];
+            const { user_id, fullname, username, email, date_joined } =
+              data.rows[0];
             res.cookie(
               'user',
               JSON.stringify({
@@ -42,7 +36,7 @@ userController.login = (req, res, next) => {
             return next();
           }
         })
-        .catch(err => next(err));
+        .catch((err) => next(err));
     }
   });
 };

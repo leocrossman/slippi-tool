@@ -4,6 +4,8 @@ const app = express();
 const PORT = process.env.PORT;
 // const db = require('./db-models/db-models');
 
+const game = require(path.join(__dirname, 'replay-testing/main.js'));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -11,15 +13,15 @@ app.use(express.urlencoded({ extended: true }));
 
 // app.use('/users', usersRouter);
 
-app.get('/', function(req, res, next) {
-  res.status(200).send('Hello from the server!');
+app.get('/', function (req, res, next) {
+  res.status(200).json(JSON.stringify(game));
 });
 
-app.get('*', function(req, res) {
+app.get('*', function (req, res) {
   res.sendStatus(404);
 });
 
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   const defaultErr = {
     log: 'Express error handler caught unknown middleware error', // goes to server
     status: 400,
